@@ -3,13 +3,15 @@ import 'package:flutter_tests/state/article.dart';
 
 class ArticleList extends StatelessWidget {
   final List<Article> articles = List.generate(
-      10, (index) => Article('art title $index', 'art content $index'));
+    20,
+    (index) => Article('列表标题:$index', '内容:$index'),
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('article list'),
+        title: Text('列表'),
       ),
       body: ListView.builder(
         itemBuilder: (context, index) {
@@ -75,15 +77,15 @@ class ContentScreen extends StatelessWidget {
               children: <Widget>[
                 RaisedButton(
                   onPressed: () {
-                    Navigator.pop(context, 'Like');
+                    Navigator.pop(context, '喜欢');
                   },
-                  child: Text('Like'),
+                  child: Text('喜欢'),
                 ),
                 RaisedButton(
                   onPressed: () {
-                    Navigator.pop(context, 'unlike');
+                    Navigator.pop(context, '不喜欢');
                   },
-                  child: Text('unlike'),
+                  child: Text('不喜欢'),
                 )
               ],
             )

@@ -5,11 +5,11 @@ class FirstScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('First screen'),
+        title: Text('首页'),
       ),
       body: Center(
         child: RaisedButton(
-          child: Text('launch second screen'),
+          child: Text('跳转至第二页'),
           onPressed: () {
             // Navigator.push(
             //   context,
@@ -28,11 +28,11 @@ class SecondScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('second screen'),
+        title: Text('第二页'),
       ),
       body: Center(
         child: RaisedButton(
-          child: Text('go back'),
+          child: Text('返回'),
           onPressed: () {
             Navigator.pop(context);
           },
