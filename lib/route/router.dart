@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tests/pages/article_list.dart';
-import 'package:flutter_tests/pages/demo1_navigation.dart';
 import 'package:flutter_tests/route/navigation_stack.dart';
 
 class Router extends StatefulWidget {

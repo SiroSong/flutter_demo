@@ -15,7 +15,7 @@ class FirstScreen extends StatelessWidget {
             //   context,
             //   MaterialPageRoute(builder: (context) => SecondScreen()),
             // );
-            Navigator.of(context).pushNamed('/second_page');
+            Navigator.of(context).pushNamed('second_page');
           },
         ),
       ),

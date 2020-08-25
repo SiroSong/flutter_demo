@@ -35,7 +35,7 @@ class ArticleList extends StatelessWidget {
               //                 )));
               String result = await Navigator.pushNamed<dynamic>(
                 context,
-                '/article_content',
+                'article_content',
                 arguments: articles[index],
               );
 

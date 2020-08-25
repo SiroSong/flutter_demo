@@ -1,11 +1,4 @@
-import 'dart:ffi';
-import 'dart:wasm';
-
 import 'package:flutter/material.dart';
-import 'package:english_words/english_words.dart';
-import 'package:flutter_tests/pages/article_list.dart';
-import 'package:flutter_tests/pages/demo1_navigation.dart';
-import 'package:flutter_tests/pages/testPage.dart';
 import 'package:flutter_tests/route/router.dart';
 
 void main() {
@@ -36,8 +29,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: themeData,
-      // home: MyHomePage(title: 'Flutter Demo Home Page'),
-      // home: FirstScreen(),
       home: Router(),
     );
   }

@@ -6,18 +6,16 @@ class HomeStack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      initialRoute: '/',
+      initialRoute: 'home',
       onGenerateRoute: (settings) {
         WidgetBuilder builder;
         print(settings.name);
         switch (settings.name) {
-          case '/':
+          case 'home':
             builder = (BuildContext context) => FirstScreen();
             break;
-          case '/second_page':
+          case 'second_page':
             builder = (BuildContext context) => SecondScreen();
-            break;
-          default:
             break;
         }
 
@@ -34,20 +32,17 @@ class ArticleStack extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Navigator(
-      initialRoute: '/',
+      initialRoute: 'article_list',
       onGenerateRoute: (settings) {
         WidgetBuilder builder;
-
+        print(settings.name);
         switch (settings.name) {
-          case '/':
+          case 'article_list':
             builder = (BuildContext context) => ArticleList();
             break;
-          case '/article_content':
+          case 'article_content':
             builder = (BuildContext context) =>
                 ContentScreen(ModalRoute.of(context).settings.arguments);
-            break;
-          default:
-            builder = (BuildContext context) => ArticleList();
             break;
         }
 
