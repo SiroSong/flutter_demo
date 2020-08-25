@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tests/state/article.dart';
+import 'package:flutter_tests/modal/article.dart';
 
 class ArticleList extends StatelessWidget {
   final List<Article> articles = List.generate(
@@ -67,29 +67,69 @@ class ContentScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(_article.title),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(15),
-        child: Column(
-          children: <Widget>[
-            Text(_article.content),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                RaisedButton(
-                  onPressed: () {
-                    Navigator.pop(context, '喜欢');
-                  },
-                  child: Text('喜欢'),
+      // body: Padding(
+      //   padding: EdgeInsets.all(15),
+      //   child: Flex(
+      //     direction: Axis.vertical,
+      //     children: <Widget>[
+      //       Expanded(
+      //         flex: 1,
+      //         child: Text(_article.content),
+      //       ),
+      //       Expanded(
+      //         child: Row(
+      //           mainAxisAlignment: MainAxisAlignment.spaceAround,
+      //           children: <Widget>[
+      //             RaisedButton(
+      //               onPressed: () {
+      //                 Navigator.pop(context, '喜欢');
+      //               },
+      //               child: Text('喜欢'),
+      //             ),
+      //             RaisedButton(
+      //               onPressed: () {
+      //                 Navigator.pop(context, '不喜欢');
+      //               },
+      //               child: Text('不喜欢'),
+      //             )
+      //           ],
+      //         ),
+      //       )
+      //     ],
+      //   ),
+      // ),
+      body: Container(
+        // color: Colors.pink,
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: Flex(
+            direction: Axis.vertical,
+            children: <Widget>[
+              Expanded(
+                flex: 1,
+                child: Text(_article.content),
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.pop(context, '喜欢');
+                      },
+                      child: Text('喜欢'),
+                    ),
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.pop(context, '不喜欢');
+                      },
+                      child: Text('不喜欢'),
+                    )
+                  ],
                 ),
-                RaisedButton(
-                  onPressed: () {
-                    Navigator.pop(context, '不喜欢');
-                  },
-                  child: Text('不喜欢'),
-                )
-              ],
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

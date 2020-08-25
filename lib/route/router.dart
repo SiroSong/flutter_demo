@@ -27,8 +27,14 @@ class RouterState extends State<Router> {
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('主页')),
-          BottomNavigationBarItem(icon: Icon(Icons.list), title: Text('列表')),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('主页'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            title: Text('列表'),
+          ),
         ],
         currentIndex: _currentIndex,
         onTap: onTabTapped,
