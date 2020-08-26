@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tests/model/article.dart';
+import 'package:flutter_tests/models/article.dart';
 
 class ArticleList extends StatelessWidget {
   final List<Article> articles = List.generate(
