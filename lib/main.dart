@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tests/models/article.dart';
 import 'package:flutter_tests/models/counter.dart';
 import 'package:flutter_tests/pages/article_list.dart';
 import 'package:flutter_tests/pages/home.dart';
@@ -6,9 +7,18 @@ import 'package:provider/provider.dart';
 
 void main() {
   // runApp(MyApp());
+  // runApp(
+  //   ChangeNotifierProvider(
+  //     create: (_) => CounterModel(),
+  //     child: MyApp(),
+  //   ),
+  // );
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => CounterModel(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => CounterModel()),
+        ChangeNotifierProvider(create: (_) => ArticleListModel()),
+      ],
       child: MyApp(),
     ),
   );

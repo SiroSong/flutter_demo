@@ -1,56 +1,56 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/models/article.dart';
+import 'package:flutter_tests/models/model.dart';
+import 'package:provider/provider.dart';
 
 class ArticleList extends StatelessWidget {
-  final List<Article> articles = List.generate(
-    20,
-    (index) => Article('列表标题:$index', '内容:$index'),
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('列表'),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(articles[index].title),
-            onTap: () async {
-              // String result = await Navigator.push(
-              //     context,
-              //     // MaterialPageRoute(
-              //     //     builder: (context) => ContentScreen(articles[index]))
-              //     PageRouteBuilder(
-              //         pageBuilder: (context, _, __) =>
-              //             ContentScreen(articles[index]),
-              //         transitionsBuilder:
-              //             (_, Animation<double> animation, __, Widget child) =>
-              //                 FadeTransition(
-              //                   opacity: animation,
-              //                   child: RotationTransition(
-              //                     turns: Tween<double>(begin: 0.0, end: 1.0)
-              //                         .animate(animation),
-              //                     child: child,
-              //                   ),
-              //                 )));
-              String result = await Navigator.pushNamed<dynamic>(
-                context,
-                'article_content',
-                arguments: articles[index],
-              );
+      body: Selector<ArticleListModel, ArticleListModel>(
+        shouldRebuild: (previous, next) => false,
+        selector: (context, provider) => provider,
+        builder: (context, provider, child) {
+          return ListView.builder(
+            itemCount: provider.total,
+            itemBuilder: (context, index) {
+              return Selector<ArticleListModel, Article>(
+                // shouldRebuild: (previous, next) => previous.liked != next.liked,
+                selector: (context, provider) => provider.articles[index],
+                builder: (context, data, child) {
+                  return ListTile(
+                    title: Text(data.title),
+                    trailing: GestureDetector(
+                      onTap: () => provider.mark(index),
+                      child: Icon(data.liked ? Icons.star : Icons.star_border),
+                    ),
+                    onTap: () async {
+                      MarkResult result = await Navigator.pushNamed<dynamic>(
+                        context,
+                        'article_content',
+                        arguments: data,
+                      );
 
-              if (result != null) {
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text(result),
-                  duration: const Duration(seconds: 1),
-                ));
-              }
+                      if (result != null) {
+                        if (result.key != data.liked) {
+                          provider.mark(index);
+                        }
+
+                        Scaffold.of(context).showSnackBar(SnackBar(
+                          content: Text('${result.value} ${data.title}'),
+                          duration: const Duration(seconds: 1),
+                        ));
+                      }
+                    },
+                  );
+                },
+              );
             },
           );
         },
-        itemCount: articles.length,
       ),
     );
   }
@@ -83,13 +83,13 @@ class ContentScreen extends StatelessWidget {
                   children: <Widget>[
                     RaisedButton(
                       onPressed: () {
-                        Navigator.pop(context, '喜欢');
+                        Navigator.pop(context, MarkResult(true, '喜欢'));
                       },
                       child: Text('喜欢'),
                     ),
                     RaisedButton(
                       onPressed: () {
-                        Navigator.pop(context, '不喜欢');
+                        Navigator.pop(context, MarkResult(false, '不喜欢'));
                       },
                       child: Text('不喜欢'),
                     )
