@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_tests/route/router.dart';
+import 'package:flutter_tests/pages/article_list.dart';
+import 'package:flutter_tests/pages/home.dart';
 
 void main() {
   runApp(MyApp());
@@ -27,9 +28,13 @@ class MyApp extends StatelessWidget {
     );
 
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: themeData,
-      home: Router(),
+      home: Home(),
+      routes: <String, WidgetBuilder>{
+        'second_page': (BuildContext context) => SecondScreen(),
+        'article_content': (BuildContext context) =>
+            ContentScreen(ModalRoute.of(context).settings.arguments),
+      },
     );
   }
 }

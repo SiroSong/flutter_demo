@@ -99,7 +99,6 @@ class ContentScreen extends StatelessWidget {
       //   ),
       // ),
       body: Container(
-        // color: Colors.pink,
         child: Padding(
           padding: EdgeInsets.all(15),
           child: Flex(
