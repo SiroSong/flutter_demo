@@ -67,37 +67,6 @@ class ContentScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(_article.title),
       ),
-      // body: Padding(
-      //   padding: EdgeInsets.all(15),
-      //   child: Flex(
-      //     direction: Axis.vertical,
-      //     children: <Widget>[
-      //       Expanded(
-      //         flex: 1,
-      //         child: Text(_article.content),
-      //       ),
-      //       Expanded(
-      //         child: Row(
-      //           mainAxisAlignment: MainAxisAlignment.spaceAround,
-      //           children: <Widget>[
-      //             RaisedButton(
-      //               onPressed: () {
-      //                 Navigator.pop(context, '喜欢');
-      //               },
-      //               child: Text('喜欢'),
-      //             ),
-      //             RaisedButton(
-      //               onPressed: () {
-      //                 Navigator.pop(context, '不喜欢');
-      //               },
-      //               child: Text('不喜欢'),
-      //             )
-      //           ],
-      //         ),
-      //       )
-      //     ],
-      //   ),
-      // ),
       body: Container(
         child: Padding(
           padding: EdgeInsets.all(15),

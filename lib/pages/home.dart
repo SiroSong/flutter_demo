@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_tests/models/counter.dart';
 import 'package:flutter_tests/pages/My.dart';
 import 'package:flutter_tests/pages/article_list.dart';
+import 'package:provider/provider.dart';
 
 class FirstScreen extends StatelessWidget {
   @override
@@ -9,17 +11,33 @@ class FirstScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('首页'),
       ),
-      body: Center(
-        child: RaisedButton(
-          child: Text('跳转至第二页'),
-          onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => SecondScreen()),
-            // );
-            Navigator.of(context).pushNamed('second_page');
-          },
-        ),
+      body: Column(
+        children: [
+          Row(
+            children: [
+              Center(
+                child: RaisedButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed('second_page');
+                  },
+                  child: Text('跳转至第二页'),
+                ),
+              )
+            ],
+          ),
+          Consumer<CounterModel>(
+            builder: (context, CounterModel counter, _) => Row(
+              children: [
+                RaisedButton(
+                  onPressed: () {
+                    counter.increment();
+                  },
+                  child: Text('${counter.value}'),
+                )
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -28,13 +46,15 @@ class FirstScreen extends StatelessWidget {
 class SecondScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final counter = Provider.of<CounterModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('第二页'),
       ),
       body: Center(
         child: RaisedButton(
-          child: Text('返回'),
+          child: Text('返回${counter.value}'),
           onPressed: () {
             Navigator.pop(context);
           },
