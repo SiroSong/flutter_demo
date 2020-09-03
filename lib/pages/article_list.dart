@@ -18,7 +18,6 @@ class ArticleList extends StatelessWidget {
             itemCount: provider.total,
             itemBuilder: (context, index) {
               return Selector<ArticleListModel, Article>(
-                // shouldRebuild: (previous, next) => previous.liked != next.liked,
                 selector: (context, provider) => provider.articles[index],
                 builder: (context, data, child) {
                   return ListTile(

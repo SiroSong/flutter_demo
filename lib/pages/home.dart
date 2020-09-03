@@ -14,15 +14,20 @@ class FirstScreen extends StatelessWidget {
       body: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                child: RaisedButton(
-                  onPressed: () {
-                    Navigator.of(context).pushNamed('second_page');
-                  },
-                  child: Text('跳转至第二页'),
-                ),
-              )
+              RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('second_page');
+                },
+                child: Text('跳转至第二页'),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed('login');
+                },
+                child: Text('登陆'),
+              ),
             ],
           ),
           Consumer<CounterModel>(

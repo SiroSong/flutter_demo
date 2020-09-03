@@ -3,6 +3,7 @@ import 'package:flutter_tests/models/article.dart';
 import 'package:flutter_tests/models/counter.dart';
 import 'package:flutter_tests/pages/article_list.dart';
 import 'package:flutter_tests/pages/home.dart';
+import 'package:flutter_tests/pages/login.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -16,8 +17,9 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => CounterModel()),
-        ChangeNotifierProvider(create: (_) => ArticleListModel()),
+        ChangeNotifierProvider<CounterModel>(create: (_) => CounterModel()),
+        ChangeNotifierProvider<ArticleListModel>(
+            create: (_) => ArticleListModel()),
       ],
       child: MyApp(),
     ),
@@ -49,9 +51,11 @@ class MyApp extends StatelessWidget {
       theme: themeData,
       home: Home(),
       routes: <String, WidgetBuilder>{
+        'home': (BuildContext context) => Home(),
         'second_page': (BuildContext context) => SecondScreen(),
         'article_content': (BuildContext context) =>
             ContentScreen(ModalRoute.of(context).settings.arguments),
+        'login': (BuildContext context) => Login(),
       },
     );
   }
