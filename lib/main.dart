@@ -7,16 +7,9 @@ import 'package:flutter_tests/pages/login.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  // runApp(MyApp());
-  // runApp(
-  //   ChangeNotifierProvider(
-  //     create: (_) => CounterModel(),
-  //     child: MyApp(),
-  //   ),
-  // );
   runApp(
     MultiProvider(
-      providers: [
+      providers: <ChangeNotifierProvider>[
         ChangeNotifierProvider<CounterModel>(create: (_) => CounterModel()),
         ChangeNotifierProvider<ArticleListModel>(
             create: (_) => ArticleListModel()),
@@ -49,7 +42,7 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       theme: themeData,
-      home: Home(),
+      initialRoute: 'home',
       routes: <String, WidgetBuilder>{
         'home': (BuildContext context) => Home(),
         'second_page': (BuildContext context) => SecondScreen(),
