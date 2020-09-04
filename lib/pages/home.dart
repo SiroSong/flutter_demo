@@ -76,7 +76,10 @@ class Home extends StatefulWidget {
   }
 }
 
-class HomeState extends State<Home> {
+class HomeState extends State<Home> with TickerProviderStateMixin {
+  static const double MAXLEFT = 150;
+  static const double MINSCALE = 0.8;
+
   int _currentIndex = 0;
   final List<Widget> _navigatorList = [
     FirstScreen(),
@@ -84,38 +87,30 @@ class HomeState extends State<Home> {
     My(),
   ];
   double _left = 0;
+  double _scale = 1;
+  bool manual = false;
+  AnimationController _controller;
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: _navigatorList[_currentIndex],
-  //     bottomNavigationBar: BottomNavigationBar(
-  //       items: [
-  //         BottomNavigationBarItem(
-  //           icon: Icon(Icons.home),
-  //           title: Text('主页'),
-  //         ),
-  //         BottomNavigationBarItem(
-  //           icon: Icon(Icons.list),
-  //           title: Text('列表'),
-  //         ),
-  //         BottomNavigationBarItem(
-  //           icon: Icon(Icons.person),
-  //           title: Text('我的'),
-  //         ),
-  //       ],
-  //       currentIndex: _currentIndex,
-  //       onTap: handleChangeCurrentIndex,
-  //     ),
-  //   );
-  // }
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+    );
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        onPanDown: (details) => print(details),
-        onPanUpdate: (details) {},
+        onPanStart: (details) => manual = true,
+        onPanEnd: (details) {
+          print('object');
+          manual = false;
+          _controller.forward();
+        },
+        onPanUpdate: panUpdateHandle,
         child: Stack(
           children: <Widget>[
             Scaffold(
@@ -123,9 +118,22 @@ class HomeState extends State<Home> {
                 child: Text('back page'),
               ),
             ),
-            // Transform.scale(scale: null),
-            Positioned(
-              left: _left,
+            AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                print(_controller.value);
+                return Positioned(
+                  // left: _left,
+                  left: manual ? _left : MAXLEFT * _controller.value,
+                  child: Transform.scale(
+                    // scale: _scale,
+                    scale: manual
+                        ? _scale
+                        : 1 - _controller.value * (1 - MINSCALE),
+                    child: child,
+                  ),
+                );
+              },
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
@@ -164,6 +172,24 @@ class HomeState extends State<Home> {
     }
     setState(() {
       _currentIndex = current;
+    });
+  }
+
+  void panUpdateHandle(DragUpdateDetails details) {
+    setState(() {
+      double location = details.delta.dx + _left;
+      if (location >= 0 && location <= MAXLEFT) {
+        _left = location;
+        _scale = 1 - (_left / 150) * (1 - MINSCALE);
+      }
+      if (location > MAXLEFT) {
+        _left = MAXLEFT;
+        _scale = MINSCALE;
+      }
+      if (location < 0) {
+        _left = 0;
+        _scale = 1;
+      }
     });
   }
 }
