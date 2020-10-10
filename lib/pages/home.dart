@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_tests/models/counter.dart';
 import 'package:flutter_tests/pages/My.dart';
@@ -88,15 +86,19 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   ];
   double _left = 0;
   double _scale = 1;
+  double startPos = 0;
   bool manual = false;
+  bool dragStatus = false;
   AnimationController _controller;
+  Animation<double> _animation;
 
   @override
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 1300),
     );
+    _animation = Tween<double>(begin: 1, end: MINSCALE).animate(_controller);
     super.initState();
   }
 
@@ -104,13 +106,29 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       body: GestureDetector(
-        onPanStart: (details) => manual = true,
-        onPanEnd: (details) {
-          print('object');
-          manual = false;
-          _controller.forward();
+        onHorizontalDragStart: (details) {
+          manual = true;
+          startPos = details.localPosition.dx;
         },
-        onPanUpdate: panUpdateHandle,
+        onHorizontalDragUpdate: panUpdateHandle,
+        onHorizontalDragEnd: (details) {
+          print('99999999');
+          manual = false;
+          _animation =
+              Tween<double>(begin: _scale, end: MINSCALE).animate(_controller)
+                ..addStatusListener((status) {
+                  if (status == AnimationStatus.completed) {
+                    _scale = MINSCALE;
+                  } else {
+                    _scale = 1;
+                  }
+                });
+          if (_controller.status == AnimationStatus.completed) {
+            _controller.reverse();
+          } else {
+            _controller.forward();
+          }
+        },
         child: Stack(
           children: <Widget>[
             Scaffold(
@@ -121,15 +139,12 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
             AnimatedBuilder(
               animation: _controller,
               builder: (context, child) {
-                print(_controller.value);
                 return Positioned(
-                  // left: _left,
-                  left: manual ? _left : MAXLEFT * _controller.value,
+                  left: _left,
+                  // left: manual ? _left : MAXLEFT * _controller.value,
                   child: Transform.scale(
-                    // scale: _scale,
-                    scale: manual
-                        ? _scale
-                        : 1 - _controller.value * (1 - MINSCALE),
+                    // scale: _animation.value,
+                    scale: manual ? _scale : _animation.value,
                     child: child,
                   ),
                 );
@@ -185,10 +200,12 @@ class HomeState extends State<Home> with TickerProviderStateMixin {
       if (location > MAXLEFT) {
         _left = MAXLEFT;
         _scale = MINSCALE;
+        dragStatus = true;
       }
       if (location < 0) {
         _left = 0;
         _scale = 1;
+        dragStatus = false;
       }
     });
   }
